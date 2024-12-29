@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מי בתמונה?</title>
+    <link rel="stylesheet" href="style.css">
+     <style>
+        .photo-game-container {
+            background-color: rgba(34, 34, 34, 0.8);
+            padding: 20px;
+             margin-top: 20px;
+            max-width: 600px;
+            margin-right: auto;
+             margin-left: auto;
+            border: 3px double #f0f;
+            border-radius: 10px;
+            box-shadow: 5px 5px 10px #000;
+             text-align: center;
+        }
+
+        #photo-display {
+             margin: 20px 0;
+            text-align: center;
+          }
+           #photo-display img {
+           max-width: 200px;
+           max-height: 200px;
+            }
+
+      #guess-input {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 10px;
+           border: 2px solid #ff0;
+            width: calc(100% - 20px);
+              background-color: #222;
+              color: #fff;
+
+        }
+
+         #submit-guess {
+          padding: 10px;
+             border: 2px solid #fff;
+             background-color: #333;
+            border-radius: 10px;
+              color: #fff;
+               cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+         #submit-guess:hover{
+            background-color: #fff;
+              color: #333;
+         }
+
+       #message {
+              font-weight: bold;
+              margin-top: 10px;
+              font-size: 1.2em;
+          }
+        </style>
+</head>
+<body style="background-color: #111; color: #fff;">
+    <div class="photo-game-container">
+        <h2 style="color:#0ff;">מי בתמונה?</h2>
+        <div id="photo-display">
+            <img id="current-photo" src="lebron4.png" alt="LeBron James">
+        </div>
+        <input type="text" id="guess-input" placeholder="נחשו מי בתמונה">
+        <button id="submit-guess">בדוק</button>
+        <div id="message"></div>
+    </div>
+<script>
+   const photos = {
+        lebron1: "lebron1.png",
+        lebron2: "lebron2.png",
+        lebron3: "lebron3.png",
+         lebron4: "lebron4.png"
+        };
+    let currentImage = "lebron4";
+    const correctAnswers = ["לברון ג'יימס","lebraon james", "lebron james", "לברון גיימס"];
+
+      const photoDisplay = document.getElementById('current-photo');
+      const guessInput = document.getElementById('guess-input');
+       const submitButton = document.getElementById('submit-guess');
+         const messageDiv = document.getElementById('message');
+
+        function checkGuess() {
+          const userGuess = guessInput.value.trim().toLowerCase();
+              if (correctAnswers.includes(userGuess)) {
+                photoDisplay.src = photos.lebron1;
+                  messageDiv.textContent = "צדקת. זה האדם השני הכי מפורסם בעולם שיש לו היום יום הולדת";
+                    messageDiv.style.color = 'green';
+                 submitButton.disabled = true;
+                     guessInput.disabled = true;
+                return;
+          } else if(currentImage === "lebron4") {
+                photoDisplay.src = photos.lebron3;
+               currentImage = "lebron3";
+                 messageDiv.textContent = 'נסה שוב!';
+                messageDiv.style.color = 'orange';
+           }  else  if(currentImage === "lebron3") {
+                photoDisplay.src = photos.lebron2;
+                currentImage = "lebron2";
+              messageDiv.textContent = 'נסה שוב!';
+             messageDiv.style.color = 'orange';
+            } else {
+               photoDisplay.src = photos.lebron1;
+                 messageDiv.textContent = 'נסה שוב!';
+                   messageDiv.style.color = 'orange';
+          }
+            guessInput.value = '';
+      }
+
+      submitButton.addEventListener('click', checkGuess);
+  </script>
+</body>
+</html>

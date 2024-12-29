@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>זהה את השיר</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+      .song-container {
+            background-color: rgba(34, 34, 34, 0.8);
+            padding: 20px;
+             margin-top: 20px;
+            max-width: 600px; /* set a max-width to keep it more structured */
+            margin-right: auto; /* add right and left margin to center the element */
+            margin-left: auto;
+            border: 3px double #f0f;
+            border-radius: 10px;
+            box-shadow: 5px 5px 10px #000;
+         }
+
+        #guess-input {
+            padding: 10px;
+            margin: 10px 0;
+             border-radius: 10px;
+             border: 2px solid #ff0;
+            width: calc(100% - 20px);
+             background-color: #222;
+            color: #fff;
+
+        }
+
+      #submit-guess {
+            padding: 10px;
+             border: 2px solid #fff;
+            background-color: #333;
+             border-radius: 10px;
+             color: #fff;
+            cursor: pointer;
+            margin-bottom: 10px;
+
+         }
+        #submit-guess:hover{
+           background-color: #fff;
+           color: #333;
+        }
+
+        #message {
+            font-weight: bold;
+            margin-top: 10px;
+             font-size: 1.2em;
+        }
+    </style>
+</head>
+<body style="background-color: #111; color: #fff;">
+    <div class="song-container">
+        <h2 style="color:#0ff;">זהה את השיר</h2>
+        <div id="lyric-display">
+            <!-- Lyrics will appear here -->
+        </div>
+        <input type="text" id="guess-input" placeholder="נחשו את שם השיר">
+        <button id="submit-guess">בדוק</button>
+        <div id="message"></div>
+    </div>
+    <script>
+        const lyrics = [
+           "היא היתה סוחרת דגים, ולבטח לא היה זה פלא",
+           "הרי כך היו גם אביה ואמה לפנים",
+           "והם גלגלו את המריצה דרך הרחובות, רחבים כצרים",
+           "וקראו ״צדפות ומולים, חיים, חיים, הו״"
+        ];
+        const correctSong = "Molly Malone";
+        let currentLine = 0;
+        const lyricDisplay = document.getElementById('lyric-display');
+        const guessInput = document.getElementById('guess-input');
+        const submitButton = document.getElementById('submit-guess');
+        const messageDiv = document.getElementById('message');
+
+        function displayCurrentLine() {
+          lyricDisplay.innerHTML = '';
+             for (let i = 0; i <= currentLine; i++) {
+                const lineElement = document.createElement('p');
+                lineElement.style.color =  (i % 2 === 0 )?  '#0ff' : '#ff0';
+                lineElement.textContent = lyrics[i];
+                lyricDisplay.appendChild(lineElement);
+              }
+          }
+
+
+        function checkAnswer() {
+            const userGuess = guessInput.value.trim();
+             if (userGuess === correctSong) {
+              messageDiv.textContent = 'כל הכבוד! ניצחתם! שם השיר: Molly Malone';
+              messageDiv.style.color = 'green';
+              submitButton.disabled = true;
+              guessInput.disabled = true;
+                return;
+
+            } else {
+             currentLine++;
+                if(currentLine >= lyrics.length) {
+                    messageDiv.textContent = `Game Over Loser! שם השיר: Molly Malone by Dubliners`;
+                    messageDiv.style.color = 'red';
+                    submitButton.disabled = true;
+                   guessInput.disabled = true;
+                   return;
+                }
+               displayCurrentLine();
+              messageDiv.textContent = 'נסה שוב!';
+              messageDiv.style.color = 'orange';
+             }
+             guessInput.value = '';
+        }
+         displayCurrentLine();
+
+        submitButton.addEventListener('click', checkAnswer);
+    </script>
+</body>
+</html>
